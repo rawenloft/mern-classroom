@@ -81,4 +81,14 @@ const remove = async (req, res) => {
     }
 }
 
-export default { create, userById, read, list, remove, update}
+const isEducator = (req, res, next) => {
+    const isEducator = req.profile && req.profile.isEducator
+    if (!isEducator) {
+        return res.status('403').json({
+            error: "User is not an educator"
+        })
+    }
+    next()
+}
+
+export default { create, userById, read, list, remove, update, isEducator}

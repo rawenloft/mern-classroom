@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Home from '@material-ui/icons/Home'
+import Library from '@material-ui/icons/LocalLibrary'
 import { Link, withRouter } from 'react-router-dom'
 import auth from './../auth/auth-helper'
 
@@ -15,6 +16,13 @@ const isActive = (history, path) => {
         return {color: '#ffffff'}
     }
 }
+const isPartActive = (history, path) => {
+    if (history.location.pathname.includes(path)){
+        return {color: '#fffde7', backgroundColor: '#f57c00', maraginRight: 10}
+    } else {
+        return {color: '#616161', backgroundColor: '#fffde7', border:'1px solid #f57c00', maraginRight: 10}
+    }
+}
 
 const Menu = withRouter(({history}) => (
     <AppBar position="static">
@@ -22,14 +30,17 @@ const Menu = withRouter(({history}) => (
             <Typography variant="h6" color="inherit">
                 MERN Skeleton
             </Typography>
-            <Link to="/">
-                <IconButton aria-label="Home" style={isActive(history,"/")}>
-                    <Home />
-                </IconButton>
-            </Link>
-            <Link to="/users">
-                <Button style={isActive(history,"/users")}>Users</Button>
-            </Link>
+            <div>
+                <Link to="/">
+                    <IconButton aria-label="Home" style={isActive(history,"/")}>
+                        <Home />
+                    </IconButton>
+                </Link>
+                {/* <Link to="/users">
+                    <Button style={isActive(history,"/users")}>Users</Button>
+                </Link> */}
+            </div>
+            <div style={{'position':'absolute', 'right': '10px'}}><span style={{'float': 'right'}}>
             {
                 !auth.isAuthenticated() && (<span>
                         <Link to="/signup">
@@ -42,8 +53,15 @@ const Menu = withRouter(({history}) => (
             }
             {
                 auth.isAuthenticated() && (<span>
+                    { auth.isAuthenticated().user.educator && 
+                    (<Link to={"/teach/courses"}>
+                        <Button style={isPartActive(history, "/teach/")}>
+                            <Library /> Teach </Button>
+                    </Link>)
+
+                    }
                         <Link to={"/user/" + auth.isAuthenticated().user._id}>
-                            <Button style={isActive(history, "/user" + auth.isAuthenticated().user._id)}>
+                            <Button style={isActive(history, "/user/" + auth.isAuthenticated().user._id)}>
                                 My Profile
                             </Button>
                         </Link>
@@ -52,6 +70,7 @@ const Menu = withRouter(({history}) => (
                         </Button>
                     </span>)
             }
+            </span></div>
         </Toolbar>
     </AppBar>
 ))

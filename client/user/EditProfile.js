@@ -79,7 +79,7 @@ export default function Edit({match}) {
         name: values.name || undefined,
         email: values.email || undefined,
         password: values.password || undefined,
-        educator: values.educator || undefined
+        educator: values.educator
         }
         update({
             userId: match.params.userId
