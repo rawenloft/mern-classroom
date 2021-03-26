@@ -35,12 +35,13 @@ export default function Profile({ match }) {
     const classes = useStyles()
     const [user, setUser] = useState({})
     const [redirectToSignin, setRedirectToSignin] = useState(false)
+    const jwt = auth.isAuthenticated()
 
 
     useEffect(() => {
         const abortController = new AbortController()
         const signal = abortController.signal
-        const jwt = auth.isAuthenticated()
+        
         read({
             userId: match.params.userId
         }, {t: jwt.token}, signal).then((data) => {
