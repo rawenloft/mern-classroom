@@ -170,7 +170,8 @@ export default function Course({match}){
     if (values.redirect){
         return (<Redirect to={'/teach/courses'} />)
     }
-    const imageUrl = course._id ? `/api/courses/photo/${course._id}?${new Date().getTime()}` : '/api/courses/defaultphoto'
+    const imageUrl = course._id 
+    ? `/api/courses/photo/${course._id}?${new Date().getTime()}` : '/api/courses/defaultphoto'
 
     return (<div className={classes.root}>
         <Card className={classes.card}>
@@ -189,9 +190,9 @@ export default function Course({match}){
                             </IconButton>
                         </Link>
                     { !course.published ? (<>
-                        <Button color="secondary" variant="outlined" onClick={clickPublish}>{course.lessons.length == 0 ? "Add at least 1 lesson to publish" : "Publish"}</Button>
-                        <DeleteCourse course={course} onRemove={removeCourse} />
-                    </>) : (
+                            <Button color="secondary" variant="outlined" onClick={clickPublish}>{course.lessons.length == 0 ? "Add at least 1 lesson to publish" : "Publish"}</Button>
+                            <DeleteCourse course={course} onRemove={removeCourse} />
+                        </>) : (
                         <Button color="primary" variant="outlined">Published</Button>
                         )}
                     </span>)

@@ -24,7 +24,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 
 import Info from '@material-ui/icons/Info'
 import CheckCircle from '@material-ui/icons/CheckCircle'
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUncheckedIcon'
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked'
 
 const useStyles = makeStyles(theme => ({
     root: theme.mixins.gutters({
@@ -134,11 +134,15 @@ export default function Enrollment({match}) {
         const abortController = new AbortController()
         const signal = abortController.signal
 
-        read({enrollmentId: match.params.enrollmentId}, {t: jwt.token}, signal).then((data) => {
+        read({
+            enrollmentId: match.params.enrollmentId
+        }, {
+            t: jwt.token
+        }, signal).then((data) => {
             if (data.error){
                 setValues({...values, error: data.error})
             } else {
-                totalComplete(data.lessonStatus)
+                totalCompleted(data.lessonStatus)
                 setEnrollment(data)
             }
         })
@@ -170,7 +174,11 @@ export default function Enrollment({match}) {
                 updatedData.courseCompleted = Date.now()
             }
 
-            complete({enrollmentId: match.params.enrollmentId}, {t: jwt.token}, updatedData).then((data) => {
+            complete({
+                enrollmentId: match.params.enrollmentId
+            }, {
+                t: jwt.token
+            }, updatedData).then((data) => {
                 if (data && data.error) {
                     setValues({...values, error: data.error})
                 } else {
@@ -181,7 +189,7 @@ export default function Enrollment({match}) {
     }
 
     const imageUrl = enrollment.course._id 
-    ? `/api/courses/photo${enrollment.course._id}?${new Date().getTime()}` 
+    ? `/api/courses/photo/${enrollment.course._id}?${new Date().getTime()}` 
     : '/api/courses/defaultphoto'
 
     return(<div className={classes.root}>
@@ -205,9 +213,10 @@ export default function Enrollment({match}) {
                                 {index+1}
                             </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary={enrollment.course.lessonStatus[index].title}/>
+                        <ListItemText primary={enrollment.course.lessons[index].title}/>
                         <ListItemSecondaryAction>
-                            {lesson.complete ? <CheckCircle className={classes.check}/> : <RadioButtonUncheckedIcon />}
+                            {lesson.complete ? <CheckCircle className={classes.check}/> 
+                            : <RadioButtonUncheckedIcon />}
                         </ListItemSecondaryAction>
                     </ListItem>
                 ))}
@@ -215,7 +224,7 @@ export default function Enrollment({match}) {
             <Divider />
             <List>
                 <ListItem>
-                    <ListItemText primary={<div className={classes.progress}><span>{totalComplete}</span> out of <span>enrollment.lessonStatus.length</span> completed</div>}/>
+                    <ListItemText primary={<div className={classes.progress}><span>{totalComplete}</span> out of <span>{enrollment.lessonStatus.length}</span> completed</div>}/>
                 </ListItem>
             </List>
         </Drawer>

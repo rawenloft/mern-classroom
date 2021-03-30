@@ -18,11 +18,11 @@ const listEnrolled = async (credentials, signal) => {
     try {
         let response = await fetch('/api/enrollment/enrolled', {
             method: 'GET',
-            signal: signal,
             headers: {
                 'Accept': 'application/json',
                 'Authorization': 'Bearer ' + credentials.t
-            }
+            },
+            signal: signal
         })
         return await response.json()
     } catch (err) {

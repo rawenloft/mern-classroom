@@ -61,7 +61,9 @@ export default function Edit({match}) {
 
         read({
             userId: match.params.userId
-        }, {t: jwt.token}, signal).then((data) => {
+        }, {
+            t: jwt.token
+        }, signal).then((data) => {
             if (data && data.error) {
                 setValues({ ...values, error: data.error})
             } else {
@@ -83,7 +85,9 @@ export default function Edit({match}) {
         }
         update({
             userId: match.params.userId
-        }, {t: jwt.token}, user).then((data) => {
+        }, {
+            t: jwt.token
+        }, user).then((data) => {
             if (data && data.error) {
                 setValues({ ...values, error: data.error})
             } else {
@@ -98,10 +102,10 @@ export default function Edit({match}) {
         setValues({ ...values, [name]: event.target.value})
     }
     const handleCheck = (event, checked) => {
-        setValues({...values, 'educator': checked})
+        setValues({...values, educator: checked})
     }
         if (values.redirectToProfile) {
-            return (<Redirect to={"/user/" + values.userId} />)
+            return (<Redirect to={'/user/' + values.userId} />)
         }
     
     return (

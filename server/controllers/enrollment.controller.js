@@ -27,7 +27,7 @@ const enrollmentById = async (req, res, next, id) => {
     try {
         let enrollment = await Enrollment.findById(id)
             .populate({path: 'course', populate: {path: 'instructor'}})
-            .populate('stubent', '_id name')
+            .populate('student', '_id name')
         if (!enrollment) {
             return res.status('400').json({
                 error: "Enrollment not found"
@@ -92,6 +92,7 @@ const listEnrolled = async (req, res) => {
             .populate('course',' _id name category')
         res.json(enrollments)    
     } catch (err) {
+        console.log(err)
         return res.status(400).json({
             error: errorHandler.getErrorMessage(err)
         })

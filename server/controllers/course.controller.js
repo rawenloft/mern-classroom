@@ -1,7 +1,8 @@
 import Course from './../models/course.model'
+import extend from 'lodash/extend'
 import fs from 'fs'
 import errorHandler from './../helpers/dbErrorHandler'
-import extend from 'lodash/extend'
+import formidable from 'formidable'
 import defaultImage from './../../client/assets/images/default.jpg'
 
 const create = (req, res) => {
@@ -55,7 +56,7 @@ const read = (req, res) => {
 const list = async (req, res) => {
     try {
         let courses = await Course.find().select('name email updated created')
-        return res.json(courses)
+        res.json(courses)
     } catch (err) {
         return res.status(400).json({
             error: errorHandler.getErrorMessage(err)

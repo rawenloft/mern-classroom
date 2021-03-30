@@ -19,7 +19,7 @@ const CourseSchema = new mongoose.Schema({
         trim: true
     },
     image: {
-        type: Buffer,
+        data: Buffer,
         contentType: String
     },
     category: {
@@ -28,7 +28,7 @@ const CourseSchema = new mongoose.Schema({
     },
     published: {
         type: Boolean,
-        default: falsee
+        default: false
     },
     instructor: {
         type: mongoose.Schema.ObjectId, ref: 'User'},
